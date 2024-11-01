@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('programme.urls')),
     path('', include('course.urls')),
-    path('', include('health.urls'))
+    path('', include('health.urls')),
+    path('', include('generate_token.urls')),
 ]
