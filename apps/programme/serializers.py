@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from .models import Programme
+
+from apps.programme.models import Programme
+
 
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
-        fields = ['programmeid', 'programmename', 'degreetype', 'credits']
-        read_only_fields = fields
+        fields = "__all__"
