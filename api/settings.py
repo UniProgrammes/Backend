@@ -78,6 +78,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.wsgi.application"
 
+DB_SCHEMA = {
+    "development": "dev",
+    "production": "prod",
+    "qa": "qa",
+}[env("ENVIRONMENT")]
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -86,6 +92,7 @@ DATABASES = {
         "PASSWORD": env("DB_PASSWORD"),
         "HOST": env("DB_HOST"),
         "PORT": "5432",
+        "OPTIONS": {"options": f"-c search_path={DB_SCHEMA}"},
     }
 }
 
