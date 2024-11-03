@@ -1,30 +1,30 @@
 # How to run the server
 
-## Step 1 - Env setup
-Create a `.env` file inside api and fill it with the variables indicated in `.example.env`.
+## Step 1 - Docker
+You need to have docker installed in your PC.
 
-## Step 2 - Create virtualenv (recommended)
-Create a virtual environment running the following steps in the console.
-
-1. Create virtual environment
+## Step 2 - Build
+Run in the terminal:
 ``` bash
-  python3 -m venv venv
-```
-2. Activate env
-``` bash
-  source venv/bin/activate
+  make build
 ```
 
-## Step 3 - Install requirements
+
+## Step 3 - Makemigrations and run them
+1. Create migrations
 ``` bash
-pip install -r requirements.txt
+  make makemigrations
+```
+
+2. Run migrations
+``` bash
+  make migrate
 ```
 
 ## Step 4 - Run server
 ``` bash
-python3 manage.py runserver
+make runserver
 ```
-
 
 ___
 
@@ -35,14 +35,14 @@ ___
 Create or add modifications to the model in the folder `model` of the app.
 
 ## Step 2 - Create migrations
-Run:
+Run in the terminal:
 ``` bash
-python3 manage.py makemigrations
+make makemigrations
 ```
-This sphould create a file in the folder `migrations` of your app.
+This should create a file in the folder `migrations` of your app.
 
 ## Step 3 - Run migrations
 Run:
 ``` bash
-python3 manage.py migrate
+make migrate
 ```
