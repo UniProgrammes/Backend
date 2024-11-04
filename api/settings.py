@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "apps.health",
     "apps.programme",
     "apps.lib",
+    "apps.course"
 ]
 
 MIDDLEWARE = [
