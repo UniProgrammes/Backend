@@ -2,8 +2,8 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
 from apps.lib.pagination import StandardPagination
-from apps.programme.models import Programme
-from apps.programme.serializers import ProgrammeSerializer
+from apps.programmes.models import Programme
+from apps.programmes.serializers import ProgrammeSerializer
 
 
 class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
