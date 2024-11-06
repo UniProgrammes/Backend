@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "apps.health",
     "apps.programmes",
     "apps.lib",
+    "apps.courses",
     "apps.users",
 ]
 

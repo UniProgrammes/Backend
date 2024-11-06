@@ -1,0 +1,12 @@
+from django.db.models import CharField, DecimalField, TextField
+
+from apps.lib.models import UUIDModel
+
+
+class Course(UUIDModel):
+    name = CharField(max_length=255)
+    code = CharField(max_length=255)
+    credits = DecimalField(max_digits=5, decimal_places=2)
+    educational_level = CharField(max_length=255)
+    description = TextField()
+    main_area = CharField(max_length=255)

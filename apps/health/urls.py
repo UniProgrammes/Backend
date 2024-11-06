@@ -5,7 +5,7 @@ from .views import HealthCheckView
 
 router = routers.DefaultRouter()
 router.register(
-    "",
+    "health",
     HealthCheckView,
     basename="health-check-viewset",
 )
