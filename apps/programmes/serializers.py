@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.programme.models import Programme
+from apps.programmes.models import Programme
 
 
 class ProgrammeSerializer(serializers.ModelSerializer):
