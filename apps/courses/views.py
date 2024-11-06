@@ -6,6 +6,7 @@ from apps.lib.pagination import StandardPagination
 from apps.courses.models import Course
 from apps.courses.serializers import CourseSerializer
 
+
 class CourseViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
