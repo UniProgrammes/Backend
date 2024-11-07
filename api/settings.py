@@ -46,9 +46,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "apps.health",
     "apps.programmes",
+    "apps.degrees",
+    "apps.learning_outcomes",
     "apps.lib",
     "apps.courses",
     "apps.users",
+    "apps.study_plans",
 ]
 
 MIDDLEWARE = [

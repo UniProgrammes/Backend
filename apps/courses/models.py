@@ -1,4 +1,4 @@
-from django.db.models import CharField, DecimalField, TextField
+from django.db.models import CharField, DecimalField, TextField, ManyToManyField
 
 from apps.lib.models import UUIDModel
 
@@ -10,3 +10,11 @@ class Course(UUIDModel):
     educational_level = CharField(max_length=255)
     description = TextField()
     main_area = CharField(max_length=255)
+
+    learning_outcomes = ManyToManyField(
+        "learning_outcomes.LearningOutcome",
+        related_name="courses",
+        blank=True,
+    )
+
+    prerequisites = ManyToManyField("self", blank=True)
