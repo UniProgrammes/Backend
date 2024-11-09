@@ -1,15 +1,21 @@
-from django.db import models
-from django.db.models import CharField, ForeignKey, ManyToManyField
+from django.db.models import (
+    CharField,
+    CASCADE,
+    ForeignKey,
+    ManyToManyField,
+)
 
 from apps.lib.models import UUIDModel
 
 
 class StudyPlan(UUIDModel):
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("completed", "Completed"),
+    ]
     name = CharField(max_length=255)
-    status = CharField(max_length=255)
-    user = ForeignKey(
-        "users.User", on_delete=models.CASCADE, related_name="study_plans"
-    )
+    status = CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
+    user = ForeignKey("users.User", on_delete=CASCADE, related_name="study_plans")
     courses = ManyToManyField(
         "courses.Course",
         related_name="study_plans",
