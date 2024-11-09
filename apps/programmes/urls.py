@@ -7,5 +7,5 @@ router.register("programmes", ProgrammeViewSet, basename="programme")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("programmes/<int:programme_id>/structure", ProgrammeStructureView.as_view(), name="programme-structure"),
+    path("programmes/<uuid:programme_id>/courses", ProgrammeStructureView.as_view(), name="programme-structure"),
 ]
