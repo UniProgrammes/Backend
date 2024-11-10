@@ -6,12 +6,15 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     DestroyModelMixin,
 )
+from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from apps.lib.pagination import StandardPagination
-from apps.study_plans.models import StudyPlan
-from apps.study_plans.serializers import StudyPlanSerializer
+from apps.study_plans.models import StudyPlan, StudyPlanCourse
+from apps.study_plans.serializers import StudyPlanSerializer, StudyPlanCourseSerializer
 
 
 class StudyPlanViewSet(
@@ -31,3 +34,34 @@ class StudyPlanViewSet(
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+    @action(detail=True, methods=["get", "post", "delete"])
+    def courses(self, request, *args, **kwargs):
+        study_plan = self.get_object()
+
+        if request.method == "GET":
+            study_plan_courses = study_plan.study_plan_courses.all()
+            serializer_data = StudyPlanCourseSerializer(
+                study_plan_courses, many=True
+            ).data
+
+            return Response(serializer_data)
+
+        elif request.method == "POST":
+            courses = request.data["courses"]
+            study_plan_courses = []
+            for course in courses:
+                study_plan_courses.append(
+                    StudyPlanCourse(
+                        study_plan=study_plan,
+                        course_id=course["id"],
+                        semester=course["semester"],
+                    )
+                )
+            StudyPlanCourse.objects.bulk_create(study_plan_courses)
+
+        elif request.method == "DELETE":
+            courses_ids = request.data["courses_ids"]
+            study_plan.study_plan_courses.filter(course_id__in=courses_ids).delete()
+
+        return Response(status=HTTP_204_NO_CONTENT)

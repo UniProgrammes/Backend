@@ -1,0 +1,2 @@
+from apps.study_plans.serializers.study_plan import StudyPlanSerializer
+from apps.study_plans.serializers.study_plan_course import StudyPlanCourseSerializer
