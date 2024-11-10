@@ -16,4 +16,4 @@ class StudyPlanCourse(UUIDModel):
     is_completed = BooleanField(default=False)
 
     class Meta:
-        unique_together = [("study_plan", "course")]
+        unique_together = [("study_plan", "course", "semester")]
