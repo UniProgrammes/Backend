@@ -1,5 +1,11 @@
+from rest_framework.mixins import (
+    ListModelMixin,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+)
 from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
@@ -11,13 +17,23 @@ from apps.study_plans.models import StudyPlan
 from apps.study_plans.serializers import StudyPlanSerializer, StudyPlanSummarySerializer
 
 
-class StudyPlanViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+class StudyPlanViewSet(
+    GenericViewSet,
+    ListModelMixin,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
     queryset = StudyPlan.objects.all()
     serializer_class = StudyPlanSerializer
     pagination_class = StandardPagination
 
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
     @action(detail=False, methods=["get"], url_path="my-study-plans")
     def my_study_plans(self, request):
