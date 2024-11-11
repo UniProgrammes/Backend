@@ -1,4 +1,3 @@
-from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import (
     ListModelMixin,
     RetrieveModelMixin,
@@ -48,4 +47,3 @@ class StudyPlanViewSet(
 
         study_plans_data = StudyPlanSummarySerializer(study_plans, many=True).data
         return Response(study_plans_data, status=HTTP_200_OK)
-
