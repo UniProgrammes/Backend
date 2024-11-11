@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from apps.study_plans.models import StudyPlan
 
@@ -12,3 +12,14 @@ class StudyPlanSerializer(ModelSerializer):
     def create(self, validated_data):
         validated_data["user"] = self.context["request"].user
         return super().create(validated_data)
+
+
+class StudyPlanSummarySerializer(ModelSerializer):
+    num_courses = SerializerMethodField()
+
+    class Meta:
+        model = StudyPlan
+        fields = ["name", "status", "num_courses", "created_at", "updated_at"]
+
+    def get_num_courses(self, obj):
+        return obj.courses.count()
