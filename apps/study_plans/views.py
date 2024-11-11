@@ -8,9 +8,9 @@ from rest_framework.mixins import (
 )
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.lib.pagination import StandardPagination
 from apps.study_plans.models import StudyPlan, StudyPlanCourse
@@ -47,7 +47,7 @@ class StudyPlanViewSet(
 
             return Response(serializer_data)
 
-        elif request.method == "POST":
+        if request.method == "POST":
             courses = request.data["courses"]
             study_plan_courses = []
             for course in courses:
