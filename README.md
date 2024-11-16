@@ -6,19 +6,18 @@ You need to have docker installed in your PC.
 ## Step 2 - Build
 Run in the terminal:
 ``` bash
-  make build
+make build
 ```
-
 
 ## Step 3 - Makemigrations and run them
 1. Create migrations
 ``` bash
-  make makemigrations
+make makemigrations
 ```
 
 2. Run migrations
 ``` bash
-  make migrate
+make migrate
 ```
 
 ## Step 4 - Run server
@@ -45,4 +44,13 @@ This should create a file in the folder `migrations` of your app.
 Run:
 ``` bash
 make migrate
+```
+
+___
+
+
+# Initialize the database with mock data
+Run in the terminal:
+``` bash
+make initdb
 ```
