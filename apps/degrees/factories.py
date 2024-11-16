@@ -24,7 +24,8 @@ class DegreeFactory(DjangoModelFactory):
                     programme=programme,
                     period_years=random.randint(1, 4),
                 )
-                programme.degree_type.set(self.name)
+                programme.degree_type = self.name
+                programme.save()
         else:
             programmes = ProgrammeFactory.create_batch(4)
             for programme in programmes:
@@ -33,4 +34,5 @@ class DegreeFactory(DjangoModelFactory):
                     programme=programme,
                     period_years=random.randint(1, 4),
                 )
-                programme.degree_type.set(self.name)
+                programme.degree_type = self.name
+                programme.save()

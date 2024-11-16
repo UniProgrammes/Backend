@@ -17,4 +17,4 @@ class Course(UUIDModel):
         blank=True,
     )
 
-    prerequisites = ManyToManyField("self", blank=True)
+    prerequisites = ManyToManyField("self", symmetrical=False, blank=True)
