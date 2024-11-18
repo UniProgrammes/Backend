@@ -1,11 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.authentication import JWTAuthentication
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.lib.pagination import StandardPagination
 from apps.programmes.models import Programme
@@ -36,3 +36,4 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
+    
