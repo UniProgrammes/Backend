@@ -4,8 +4,8 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
-from rest_framework import status, generics
-from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.decorators import action
 from apps.lib.pagination import StandardPagination
 from apps.programmes.models import Programme
 from apps.programmes.serializers import ProgrammeSerializer
@@ -16,6 +16,7 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
     pagination_class = StandardPagination
+    lookup_field = 'uuid'
 
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -23,21 +24,14 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProgrammeFilter
 
-class ProgramCoursesView(generics.ListAPIView):
-    serializer_class = CourseSerializer
-
-    def get_queryset(self):
-        programme_uuid = self.kwargs.get('uuid')
-        programme = get_object_or_404(Programme, uuid=programme_uuid)
-        return programme.courses.all()
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        programme = get_object_or_404(Programme, uuid=self.kwargs.get('uuid'))
+    @action(detail=True, methods=['get'], url_path='courses')
+    def courses(self, request, uuid=None):
+        programme = self.get_object()
+        courses = programme.courses.all()
         
         response_data = {
             'programme': ProgrammeSerializer(programme).data,
-            'courses': CourseSerializer(queryset, many=True).data
+            'courses': CourseSerializer(courses, many=True).data
         }
         
         return Response(response_data, status=status.HTTP_200_OK)
