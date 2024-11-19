@@ -36,4 +36,4 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
-    
+
