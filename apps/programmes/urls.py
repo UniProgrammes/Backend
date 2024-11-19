@@ -7,6 +7,5 @@ router = DefaultRouter()
 router.register("programmes", ProgrammeViewSet, basename="programme")
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path('programmes/<uuid:uuid>/courses/', ProgrammeViewSet, name='programme-courses')
+    path("", include(router.urls))
 ]
