@@ -7,5 +7,5 @@ router = DefaultRouter()
 router.register("programmes", ProgrammeViewSet, basename="programme")
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", include(router.urls))
 ]
