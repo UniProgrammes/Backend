@@ -82,3 +82,12 @@ class StudyPlanViewSet(
 
         study_plans_data = StudyPlanSummarySerializer(study_plans, many=True).data
         return Response(study_plans_data, status=HTTP_200_OK)
+
+    @action(detail=True, methods=["get"], url_path="validate-prerequisites")
+    def validate_prerequisites(self, request, *args, **kwargs):
+        study_plan = self.get_object()
+
+        return Response({
+            "is_valid": study_plan.is_valid,
+            "not_satisfied_prerequisites": study_plan.not_satisfied_prerequisites,
+        })
