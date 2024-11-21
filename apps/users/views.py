@@ -34,6 +34,12 @@ class UserViewSet(ModelViewSet):
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if not serializer.is_valid():
                 return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+            if "password" in request.data:
+                instance.set_password(request.data["password"])
+                instance.save()
+                serializer.validated_data.pop("password", None)
+
             serializer.save()
         else:
             serializer = self.get_serializer(instance)
