@@ -1,0 +1,43 @@
+version: "3"
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile1
+    restart: always
+    ports:
+      - "8080:8000"
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ../:/app
+    depends_on:
+      test_db:
+        condition: service_healthy
+    environment:
+      - ENVIRONMENT=development
+      - SECRET_KEY=secret
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=test_db
+
+  test_db:
+    image: postgres:latest
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_db
+    ports:
+      - "55432:5432" 
+    volumes:
+      - test_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  test_db_data:
+    driver: local
