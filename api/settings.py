@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("ENVIRONMENT") == "development"
+DEBUG = (env("ENVIRONMENT") == "development") or (env("ENVIRONMENT") == "test")
 
 ALLOWED_HOSTS = []
 
@@ -91,6 +91,7 @@ DB_SCHEMA = {
     "development": "dev",
     "production": "prod",
     "qa": "qa",
+    "test": "public",
 }[env("ENVIRONMENT")]
 
 DATABASES = {
