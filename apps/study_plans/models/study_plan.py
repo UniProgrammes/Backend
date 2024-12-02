@@ -23,10 +23,12 @@ class StudyPlan(UUIDModel):
         blank=True,
     )
 
+    def __str__(self):
+        return f"{self.name} ({self.status})"
+
     @property
     def is_valid(self):
         return len(self.not_satisfied_prerequisites) == 0
-
 
     @property
     def not_satisfied_prerequisites(self) -> list[dict]:

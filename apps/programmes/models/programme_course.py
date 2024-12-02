@@ -10,3 +10,9 @@ class ProgrammeCourse(UUIDModel):
     year = IntegerField()
     period_months = IntegerField()
     is_mandatory = BooleanField(default=False)
+
+    def __str__(self):
+        return (
+            f"{self.course.name} in {self.programme.name} - "
+            f"Year {self.year}, {self.period_months} months"
+        )

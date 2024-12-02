@@ -14,3 +14,6 @@ class Programme(UUIDModel):
         through="programmes.ProgrammeCourse",
         blank=True,
     )
+
+    def __str__(self):
+        return f"{self.name} ({self.degree_type})"
