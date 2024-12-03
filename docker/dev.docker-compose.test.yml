@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   test_web:
     build:
@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=test_db
     ports:
-      - "55432:5432" 
+      - "5432:5432"
     volumes:
       - test_db_data:/var/lib/postgresql/data/
       - ./init-db:/docker-entrypoint-initdb.d
