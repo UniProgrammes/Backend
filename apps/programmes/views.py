@@ -17,7 +17,6 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
     pagination_class = StandardPagination
-    lookup_field = 'uuid'
 
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -25,14 +24,14 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProgrammeFilter
 
-    @action(detail=True, methods=['get'], url_path='courses')
+    @action(detail=True, methods=["get"], url_path="courses")
     def courses(self, request, **kwargs):
         programme = self.get_object()
         courses = programme.courses.all()
 
         response_data = {
-            'programme': ProgrammeSerializer(programme).data,
-            'courses': CourseSerializer(courses, many=True).data
+            "programme": ProgrammeSerializer(programme).data,
+            "courses": CourseSerializer(courses, many=True).data,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
