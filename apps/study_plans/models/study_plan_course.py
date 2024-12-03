@@ -17,3 +17,6 @@ class StudyPlanCourse(UUIDModel):
 
     class Meta:
         unique_together = [("study_plan", "course", "semester")]
+
+    def __str__(self):
+        return f"{self.course.name} in {self.study_plan.name} - Semester {self.semester}"
