@@ -4,7 +4,6 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 from apps.users.models import User
 from apps.questions.models import Question
-from datetime import datetime
 
 class CreateQuestionAPITestCase(TestCase):
     def setUp(self):
@@ -20,12 +19,12 @@ class CreateQuestionAPITestCase(TestCase):
 
     def test_create_question(self):
         data = {
-            "question_text": "What is Django?",
+            "question_text": "What is Uniprogrammers?",
         }
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 201)
         self.assertIn("id", response.data)
-        self.assertEqual(response.data["question_text"], "What is Django?")
+        self.assertEqual(response.data["question_text"], "What is Uniprogrammers?")
         self.assertEqual(response.data["user"], (self.user.id))
 
 
@@ -44,12 +43,12 @@ class GetUserQuestionsAPITestCase(TestCase):
         # Crea alcune domande
         Question.objects.create(
             user=self.user,
-            question_text="What is Django?",
+            question_text="What is Uniprogrammers?",
             user_email=self.user.email
         )
         Question.objects.create(
             user=self.user,
-            question_text="How does Django handle models?",
+            question_text="How does Uniprogrammers handle study plans?",
             user_email=self.user.email
         )
 
@@ -57,4 +56,11 @@ class GetUserQuestionsAPITestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
-        self.assertEqual(response.data[0]["question_text"], "What is Django?")
+        self.assertEqual(
+            response.data[0]["question_text"],
+            "What is Uniprogrammers?"
+            )
+        self.assertEqual(
+            response.data[1]["question_text"],
+            "How does Uniprogrammers handle study plans?"
+            )
