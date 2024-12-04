@@ -50,3 +50,11 @@ class ProgrammeFactory(DjangoModelFactory):
                 potential_prereqs, k=min(num_prereqs, len(potential_prereqs))
             )
             course.prerequisites.set(selected_prereqs)
+
+class SimpleProgrammeFactory(DjangoModelFactory):
+    class Meta:
+        model = Programme
+
+    name = factory.LazyFunction(fake.programme_name)
+    degree_type = factory.Faker("random_element", elements=["Bachelor", "Master"])
+    credits = factory.Faker("random_element", elements=[120, 180, 240])
