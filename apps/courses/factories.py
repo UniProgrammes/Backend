@@ -32,3 +32,11 @@ class CourseFactory(DjangoModelFactory):
             num_outcomes = random.choice([0, 1, 2])
             outcomes = LearningOutcomeFactory.create_batch(num_outcomes)
             self.learning_outcomes.set(outcomes)
+
+
+class SimpleCourseFactory(DjangoModelFactory):
+    class Meta:
+        model = Course
+
+    name = factory.Faker("word")
+    credits = 5

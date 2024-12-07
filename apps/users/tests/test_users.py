@@ -1,14 +1,16 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase
 from django.urls import reverse
 
-class ExampleTestCase(TestCase):
-    def test_example(self):
-        self.assertEqual(1 + 1, 2)
+from apps.users.factories import UserFactory
 
+class CreateUserTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory(username="test")
+        self.user.set_password("test")
+        self.user.save()
 
-class CreateUserTestAssertEqual(TestCase):
     def test_create_user(self):
-        url = reverse('users-register')  # Il nome dell'URL nel file urls.py
+        url = reverse("users-register")
         data = {
             "username": "test1",
             "first_name": "Test",
@@ -19,23 +21,35 @@ class CreateUserTestAssertEqual(TestCase):
             "password": "Hello1234"
         }
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)  # 201: Created
+        self.assertEqual(response.status_code, 201)
         self.assertIn("username", response.data)
         self.assertEqual(response.data["username"], "test1")
 
-class CreateUserTestAssertNotEqual(TestCase):
-    def test_create_user(self):
-        url = reverse('users-register')  # Il nome dell'URL nel file urls.py
+    def test_login(self):
+        url = reverse("token_obtain_pair")
         data = {
-            "username": "test2",
-            "first_name": "Test",
-            "middle_name": "test",
-            "last_name": "Test",
-            "email": "test2@gmail.com",
-            "enrollment_number": "10676352",
-            "password": "Hello1234"
+            "username": "test",
+            "password": "test"
         }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)  # 201: Created
-        self.assertIn("username", response.data)
-        self.assertNotEqual(response.data["username"], "Error")
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+
+    def test_get_me(self):
+        url = reverse("users-me")
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["username"], "test")
+        self.assertEqual(response.data["first_name"], self.user.first_name)
+        self.assertEqual(response.data["last_name"], self.user.last_name)
+        self.assertEqual(response.data["email"], self.user.email)
+        self.assertEqual(response.data["enrollment_number"], self.user.enrollment_number)
+
+    def test_update_me(self):
+        url = reverse("users-me")
+        self.client.force_authenticate(user=self.user)
+        response = self.client.patch(url, {"first_name": "New Name"}, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["first_name"], "New Name")

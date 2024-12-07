@@ -36,3 +36,10 @@ class DegreeFactory(DjangoModelFactory):
                 )
                 programme.degree_type = self.name
                 programme.save()
+
+
+class SimpleDegreeFactory(DjangoModelFactory):
+    class Meta:
+        model = Degree
+
+    name = factory.Faker("word")
