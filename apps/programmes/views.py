@@ -31,7 +31,7 @@ class ProgrammeViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
         response_data = {
             "programme": ProgrammeSerializer(programme).data,
-            "courses": CourseSerializer(courses, many=True).data,
+            "courses": CourseSerializer(courses, many=True, context={"programme": programme}).data,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
