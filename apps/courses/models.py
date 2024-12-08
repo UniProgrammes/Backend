@@ -10,6 +10,7 @@ class Course(UUIDModel):
     educational_level = CharField(max_length=255)
     description = TextField()
     main_area = CharField(max_length=255)
+    semester = CharField(max_length=3, null=True, blank=True)
 
     learning_outcomes = ManyToManyField(
         "learning_outcomes.LearningOutcome",
