@@ -1,4 +1,10 @@
-from django.db.models import CharField, DecimalField, TextField, ManyToManyField, PositiveIntegerField
+from django.db.models import (
+    CharField,
+    DecimalField,
+    TextField,
+    ManyToManyField,
+    PositiveIntegerField,
+)
 
 from apps.lib.models import UUIDModel
 
