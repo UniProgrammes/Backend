@@ -19,12 +19,12 @@ class CreateQuestionAPITestCase(TestCase):
 
     def test_create_question(self):
         data = {
-            "question_text": "What is Uniprogrammers?",
+            "text": "What is Uniprogrammers?",
         }
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 201)
         self.assertIn("id", response.data)
-        self.assertEqual(response.data["question_text"], "What is Uniprogrammers?")
+        self.assertEqual(response.data["text"], "What is Uniprogrammers?")
         self.assertEqual(response.data["user"], (self.user.id))
 
 
@@ -43,13 +43,11 @@ class GetUserQuestionsAPITestCase(TestCase):
         # Crea alcune domande
         Question.objects.create(
             user=self.user,
-            question_text="What is Uniprogrammers?",
-            user_email=self.user.email
+            text="What is Uniprogrammers?"
         )
         Question.objects.create(
             user=self.user,
-            question_text="How does Uniprogrammers handle study plans?",
-            user_email=self.user.email
+            text="How does Uniprogrammers handle study plans?"
         )
 
     def test_get_user_questions(self):
@@ -57,10 +55,10 @@ class GetUserQuestionsAPITestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
         self.assertEqual(
-            response.data[0]["question_text"],
+            response.data[0]["text"],
             "What is Uniprogrammers?"
             )
         self.assertEqual(
-            response.data[1]["question_text"],
+            response.data[1]["text"],
             "How does Uniprogrammers handle study plans?"
             )
