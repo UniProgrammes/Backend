@@ -4,11 +4,10 @@ from apps.questions.models import Question
 class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'user', 'question_text']
+        fields = ['id', 'user', 'text']
         read_only_fields = ['id', 'user']
 
     def create(self, validated_data):
         user = self.context['user']
         validated_data['user'] = user
-        validated_data['user_email'] = user.email
         return super().create(validated_data)
