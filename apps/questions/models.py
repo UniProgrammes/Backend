@@ -2,9 +2,7 @@ from django.db.models import (
     CharField,
     CASCADE,
     ForeignKey,
-    ManyToManyField,
     DateTimeField,
-    EmailField,
 )
 
 from apps.lib.models import UUIDModel
@@ -15,4 +13,4 @@ class Question(UUIDModel):
     user = ForeignKey("users.User", on_delete=CASCADE, related_name="questions")
 
     def __str__(self):
-        return self.question_text
+        return self.text
