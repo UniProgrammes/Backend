@@ -41,24 +41,24 @@ class ProgrammeFactory(DjangoModelFactory):
                 courses.append(course)
 
         for index, course in enumerate(courses):
+            course_year = ProgrammeCourse.objects.filter(programme=self, course=course).first().year
             potential_prereqs = courses[:index]
-
             valid_prereqs = []
             for prereq in potential_prereqs:
-                if prereq == course:
-                    continue
-                if prereq.year < course.year:
+                prereq_year = ProgrammeCourse.objects.filter(
+                    programme=self, course=prereq
+                ).first().year
+                if prereq_year < course_year:
                     valid_prereqs.append(prereq)
-                elif prereq.year == course.year and prereq.semester < course.semester:
+                elif prereq_year == course_year and prereq.semester < course.semester:
                     valid_prereqs.append(prereq)
                 elif (
-                    prereq.year == course.year
+                    prereq_year == course_year
                     and prereq.semester == course.semester
                     and prereq.period == 1
                     and course.period == 2
                 ):
                     valid_prereqs.append(prereq)
-
             num_prereqs = random.choice([0, 1, 2])
             selected_prereqs = random.sample(valid_prereqs, k=min(num_prereqs, len(valid_prereqs)))
             course.prerequisites.set(selected_prereqs)
