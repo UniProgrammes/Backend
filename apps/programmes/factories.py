@@ -12,8 +12,7 @@ class ProgrammeFactory(DjangoModelFactory):
         model = Programme
 
     name = factory.LazyFunction(fake.programme_name)
-    degree_type = factory.Faker("random_element", elements=["Bachelor", "Master"])
-    credits = factory.Faker("random_element", elements=[120, 180, 240])
+    credits = factory.Faker("random_element", elements=[60, 120, 180])
 
     @factory.post_generation
     def courses(self, create, extracted, **kwargs):
@@ -26,8 +25,7 @@ class ProgrammeFactory(DjangoModelFactory):
                 ProgrammeCourse.objects.create(
                     programme=self,
                     course=course,
-                    year=random.randint(1, 3),
-                    period_months=random.randint(1, 12),
+                    year=random.randint(1, 4),
                     is_mandatory=random.choice([True, False]),
                 )
                 courses.append(course)
@@ -37,24 +35,38 @@ class ProgrammeFactory(DjangoModelFactory):
                 ProgrammeCourse.objects.create(
                     programme=self,
                     course=course,
-                    year=random.randint(1, 3),
-                    period_months=random.randint(1, 12),
+                    year=random.randint(1, 4),
                     is_mandatory=random.choice([True, False]),
                 )
                 courses.append(course)
 
         for index, course in enumerate(courses):
             potential_prereqs = courses[:index]
+
+            valid_prereqs = []
+            for prereq in potential_prereqs:
+                if prereq == course:
+                    continue
+                if prereq.year < course.year:
+                    valid_prereqs.append(prereq)
+                elif prereq.year == course.year and prereq.semester < course.semester:
+                    valid_prereqs.append(prereq)
+                elif (
+                    prereq.year == course.year
+                    and prereq.semester == course.semester
+                    and prereq.period == 1
+                    and course.period == 2
+                ):
+                    valid_prereqs.append(prereq)
+
             num_prereqs = random.choice([0, 1, 2])
-            selected_prereqs = random.sample(
-                potential_prereqs, k=min(num_prereqs, len(potential_prereqs))
-            )
+            selected_prereqs = random.sample(valid_prereqs, k=min(num_prereqs, len(valid_prereqs)))
             course.prerequisites.set(selected_prereqs)
+
 
 class SimpleProgrammeFactory(DjangoModelFactory):
     class Meta:
         model = Programme
 
     name = factory.LazyFunction(fake.programme_name)
-    degree_type = factory.Faker("random_element", elements=["Bachelor", "Master"])
-    credits = factory.Faker("random_element", elements=[120, 180, 240])
+    credits = factory.Faker("random_element", elements=[60, 120, 180])
