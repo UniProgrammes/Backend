@@ -59,7 +59,6 @@ class StudyPlanViewSet(
                     StudyPlanCourse(
                         study_plan=study_plan,
                         course_id=course["id"],
-                        semester=course["semester"],
                     )
                 )
             StudyPlanCourse.objects.bulk_create(study_plan_courses)
