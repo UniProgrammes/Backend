@@ -20,4 +20,3 @@ class StudyPlanCourseFactory(DjangoModelFactory):
 
     study_plan = SubFactory(StudyPlanFactory)
     course = SubFactory(SimpleCourseFactory)
-    semester = Faker("random_int", min=1, max=8)

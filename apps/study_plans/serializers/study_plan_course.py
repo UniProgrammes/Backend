@@ -9,11 +9,9 @@ class StudyPlanCourseSerializer(ModelSerializer):
 
     class Meta:
         model = StudyPlanCourse
-        fields = ["course", "semester", "is_completed"]
+        fields = ["course"]
 
     def to_representation(self, instance):
         return {
             **CourseSerializer(instance.course).data,
-            "semester": instance.semester,
-            "is_completed": instance.is_completed,
         }

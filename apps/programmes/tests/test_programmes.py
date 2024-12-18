@@ -15,7 +15,6 @@ class TestProgrammeCrud(APITestCase):
             self.programme.programmecourse_set.create(
                 course=course,
                 year=1,
-                period_months=12,
             )
 
     def test_list_programmes(self):

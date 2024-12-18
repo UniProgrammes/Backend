@@ -80,8 +80,7 @@ class TestStudyPlanCrud(APITestCase):
         response = self.client.post(url, {
             "courses": [
                 {
-                    "id": str(new_course.id),
-                    "semester": 1
+                    "id": str(new_course.id)
                 }
             ]
         }, format="json")
