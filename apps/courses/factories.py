@@ -21,6 +21,7 @@ class CourseFactory(DjangoModelFactory):
     description = factory.Faker("sentence")
     main_area = factory.Faker("random_element", elements=["ELA", "DVA"])
     semester = factory.Faker("random_element", elements=[1, 2])
+    period = factory.Faker("random_element", elements=[1, 2, 3])
 
     @factory.post_generation
     def learning_outcomes(self, create, extracted, **kwargs):
@@ -41,4 +42,3 @@ class SimpleCourseFactory(DjangoModelFactory):
 
     name = factory.Faker("word")
     credits = 5
-    semester = factory.Faker("random_element", elements=[1, 2])

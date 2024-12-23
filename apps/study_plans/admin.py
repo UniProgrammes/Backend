@@ -5,7 +5,7 @@ from apps.study_plans.models import StudyPlan, StudyPlanCourse
 class StudyPlanCourseInline(admin.TabularInline):
     model = StudyPlanCourse
     extra = 1
-    fields = ("course", "semester", "is_completed")
+    fields = ("course",)
     autocomplete_fields = ["course"]
 
 
