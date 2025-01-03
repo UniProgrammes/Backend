@@ -11,4 +11,3 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
     def get_degree_type(self, obj):
         return obj.degree_type
-
