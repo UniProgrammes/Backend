@@ -7,7 +7,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Programme
-        fields = ["id", "name", "credits", "degree_type"]
+        fields = "__all__"
 
     def get_degree_type(self, obj):
         return obj.degree_type
