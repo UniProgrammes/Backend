@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
 
 from apps.study_plans.models import StudyPlan
 
@@ -12,6 +12,17 @@ class StudyPlanSerializer(ModelSerializer):
     def create(self, validated_data):
         validated_data["user"] = self.context["request"].user
         return super().create(validated_data)
+
+    def validate(self, attrs):
+        if self.instance and attrs.get("status") == "completed":
+            if not self.instance.is_valid:
+                raise ValidationError({
+                    "status": (
+                        "This study plan cannot be marked as completed because "
+                        "not all prerequisites are satisfied."
+                    )
+                })
+        return attrs
 
 
 class StudyPlanSummarySerializer(ModelSerializer):
