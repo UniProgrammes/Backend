@@ -54,3 +54,12 @@ Run in the terminal:
 ``` bash
 make initdb
 ```
+
+___
+
+
+# Create the admin user
+Run in the terminal:
+``` bash
+make createsuperuser
+```

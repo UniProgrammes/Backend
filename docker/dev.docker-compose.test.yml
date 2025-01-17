@@ -1,12 +1,10 @@
-version: "3"
+version: "3.8"
 services:
   test_web:
     build:
       context: ..
-      dockerfile: docker/Dockerfile1
+      dockerfile: docker/Dockerfile
     restart: always
-    ports:
-      - "8080:8000"
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ../:/app
@@ -28,8 +26,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=test_db
-    ports:
-      - "55432:5432" 
     volumes:
       - test_db_data:/var/lib/postgresql/data/
       - ./init-db:/docker-entrypoint-initdb.d

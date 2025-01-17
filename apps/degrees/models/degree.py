@@ -12,3 +12,6 @@ class Degree(UUIDModel):
         through="degrees.DegreeProgramme",
         blank=True,
     )
+
+    def __str__(self):
+        return f"{self.name}"

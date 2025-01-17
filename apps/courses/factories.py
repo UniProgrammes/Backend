@@ -20,6 +20,8 @@ class CourseFactory(DjangoModelFactory):
     )
     description = factory.Faker("sentence")
     main_area = factory.Faker("random_element", elements=["ELA", "DVA"])
+    semester = factory.Faker("random_element", elements=[1, 2])
+    period = factory.Faker("random_element", elements=[1, 2, 3])
 
     @factory.post_generation
     def learning_outcomes(self, create, extracted, **kwargs):
@@ -32,3 +34,11 @@ class CourseFactory(DjangoModelFactory):
             num_outcomes = random.choice([0, 1, 2])
             outcomes = LearningOutcomeFactory.create_batch(num_outcomes)
             self.learning_outcomes.set(outcomes)
+
+
+class SimpleCourseFactory(DjangoModelFactory):
+    class Meta:
+        model = Course
+
+    name = factory.Faker("word")
+    credits = 5

@@ -24,7 +24,6 @@ class DegreeFactory(DjangoModelFactory):
                     programme=programme,
                     period_years=random.randint(1, 4),
                 )
-                programme.degree_type = self.name
                 programme.save()
         else:
             programmes = ProgrammeFactory.create_batch(4)
@@ -34,5 +33,11 @@ class DegreeFactory(DjangoModelFactory):
                     programme=programme,
                     period_years=random.randint(1, 4),
                 )
-                programme.degree_type = self.name
                 programme.save()
+
+
+class SimpleDegreeFactory(DjangoModelFactory):
+    class Meta:
+        model = Degree
+
+    name = factory.Faker("word")
