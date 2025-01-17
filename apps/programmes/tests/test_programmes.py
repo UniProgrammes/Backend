@@ -4,6 +4,7 @@ from apps.users.models import User
 from apps.programmes.factories import SimpleProgrammeFactory
 from apps.courses.factories import SimpleCourseFactory
 
+
 class TestProgrammeCrud(APITestCase):
     def setUp(self) -> None:
         self.user = User.objects.create_user(username="test", password="test")
@@ -33,13 +34,15 @@ class TestProgrammeCrud(APITestCase):
         url = reverse("programme-list")
         self.client.force_authenticate(user=None)
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data["results"]), 3)
 
     def test_retrieve_without_authentication(self):
         url = reverse("programme-detail", args=[str(self.programme.id)])
         self.client.force_authenticate(user=None)
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["id"], str(self.programme.id))
 
     def test_courses(self):
         url = reverse("programme-courses", args=[str(self.programme.id)])
